@@ -1,11 +1,10 @@
 FROM ubuntu
-MAINTAINER Caderrik <caderrik@gmail.com>
+MAINTAINER pength <thierry.peng@gmail.com
 
 ################################################################################
-## app infos
-ENV ADMINPASSWORD="changeit" INSTALL_DIR=/chivalry
-VOLUME ["/chivalry"]
-EXPOSE 7000 7010
+## exposing 8000 and 27015 on udp
+EXPOSE 8000:8000/udp
+EXPOSE 27015:27015/udp
 
 ################################################################################
 ## app deps
@@ -23,15 +22,17 @@ RUN useradd -r -m -u 1000 steam
 
 ################################################################################
 ## volume
-RUN mkdir -p "${INSTALL_DIR}" && \
-    chown steam -R "${INSTALL_DIR}" && \
-    chmod 755 -R "${INSTALL_DIR}"
+RUN mkdir -p /opt/chivalry && \
+    chown steam -R /opt/chivalry && \
+    chmod 755 -R /opt/chivalry
 
 ################################################################################
-## app config
+## copy run script
 COPY run.sh /usr/local/bin/run-chivalry
+## copy game.ini template
+COPY PCServer-UDKGame.ini /usr/local/bin/PCServer-UDKGame.ini
 
 ################################################################################
 ## app run
 USER steam
-ENTRYPOINT ["/usr/local/bin/run-chivalry"]
+ENTRYPOINT /usr/local/bin/run-chivalry
