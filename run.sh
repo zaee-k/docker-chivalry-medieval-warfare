@@ -41,4 +41,4 @@ cp /usr/local/bin/PCServer-UDKGame.ini /opt/chivalry/server/UDKGame/Config/PCSer
 export LD_LIBRARY_PATH=/opt/chivalry/server/linux64:/opt/chivalry/server/Binaries/Linux/lib
 cd "/opt/chivalry/server/Binaries/Linux"
 #launch
-./UDKGameServer-Linux AOCFFA-Moor_p\?steamsockets\?Port=8000\?QueryPort=27015\?adminpassword=erased\?password=erased -seekfreeloadingserver
+./UDKGameServer-Linux AOCFFA-Moor_p\?steamsockets\?Port=8000\?QueryPort=27015\?adminpassword=erased\?password=erased\?modname=BlackKnight -sdkfileid=232823090 -seekfreeloadingserver
