@@ -82,7 +82,7 @@ run)
   export LD_LIBRARY_PATH=/opt/chivalry/server/linux64:/opt/chivalry/server/Binaries/Linux/lib
   cd "/opt/chivalry/server/Binaries/Linux"
   #launch
-  ./UDKGameServer-Linux AOCFFA-Moor_p\?steamsockets\?Port=8000\?QueryPort=27015\?adminpassword=erased\?password=erased\?modname=BlackKnight -sdkfileid=232823090 -configsubdir="$CONFIG" -seekfreeloadingserver
+  ./UDKGameServer-Linux AOCLTS-Arena3_p\?steamsockets\?Port=8000\?QueryPort=27015\?adminpassword=erased\?password=erased\?modname=BlackKnight -sdkfileid=232823090 -configsubdir="$CONFIG" -seekfreeloadingserver
   ;;
 *)
   usage
