@@ -8,10 +8,10 @@
 * docker run --rm -ti -v /opt/chivalry:/opt/chivry -p 0.0.0.0:8000:8000/udp -p 0.0.0.0:27015:27015/udp --name chivalry -t chivalry_server update
   * Update or install steamcmd and game files in volume
 * docker run --rm -ti -v /opt/chivalry:/opt/chivry -p 0.0.0.0:8000:8000/udp -p 0.0.0.0:27015:27015/udp --name chivalry -t chivalry_server newconfig game
- - create a new config subdirectry
+  * create a new config subdirectry
 * Customize settings as you see fit in the config subdirectory
 * docker run --rm -ti -v /opt/chivalry:/opt/chivry -p 0.0.0.0:8000:8000/udp -p 0.0.0.0:27015:27015/udp --name chivalry -t chivalry_server run game
-  - run the game using the settings in the config subdirectory
+  * run the game using the settings in the config subdirectory
 
 ## Features / tested with
 * defaults to Black Knight Mod
