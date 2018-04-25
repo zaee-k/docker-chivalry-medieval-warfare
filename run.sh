@@ -1,14 +1,22 @@
 #!/usr/bin/env bash
 
+function usage {
+    echo "Accepted parameters:"
+    echo -e " update\t\t\t- update (or install) steamcmd and game data"
+    echo -e " newconfig <configname>\t- create new configsubdir in <volume>/config"
+    echo -e " run <configname>\t- run server using configsubdir"
+    exit
+}
+
 function install-steamcmd {
-    echo "steamcmd not found. Installing..."
+    echo "Downloading and unpacking steamcmd"
     mkdir -p "/opt/chivalry/steamcmd"
     cd "/opt/chivalry/steamcmd"
     curl -Ss http://media.steampowered.com/installer/steamcmd_linux.tar.gz | tar -xz
 }
 
 function install-chivalry {
-    echo "No game files found. Installing..."
+    echo "Updating/Installing game files"
     "/opt/chivalry/steamcmd/steamcmd.sh" +login anonymous +force_install_dir "/opt/chivalry/server" +app_update 220070 +quit
     if [ ! -L "/opt/chivalry/server/Binaries/Linux/lib/steamclient.so" ]; then
         ln -s "/opt/chivalry/steamcmd/linux32/steamclient.so" "/opt/chivalry/server/Binaries/Linux/lib/steamclient.so"
@@ -19,26 +27,73 @@ function install-chivalry {
     fi
 }
 
+function pristine-config {
+    if [ ! -d "/opt/chivalry/config/pristine" ]; then
+        echo "Creating the <volume>/config directory with a pristine copy of the default config"
+        mkdir -p "/opt/chivalry/config"
+        cp -r /opt/chivalry/server/UDKGame/Config /opt/chivalry/config/pristine
+    fi
+}
+
+function new-config {
+    if [ ! -d "/opt/chivalry/config/$1" ]; then
+        cp -r /opt/chivalry/config/pristine "/opt/chivalry/config/$1"
+    else
+        echo "$1 already exists"
+    fi
+}
+
 ##################################### Main #####################################
-# we check if steamcmd is installed
-[ ! -f "/opt/chivalry/steamcmd" ] && install-steamcmd
-# we check if chivalry is installed or need an update
-install-chivalry
 
-[ ! -d "/opt/chivalry/config" ] && mkdir -p "/opt/chivalry/config"
+MODE="$1"
+CONFIG="$2"
 
-cd "/opt/chivalry/config"
-[ ! -L PCServer-UDKGame.ini ] && ln -s ../server/UDKGame/Config/PCServer-UDKGame.ini PCServer-UDKGame.ini
+case $MODE in
+update)
+  if [ $# -ne 1 ]; 
+    then usage
+  fi
+  echo "Update (or install) steamcmd and game data"
+  install-steamcmd
+  install-chivalry
+  ;;
+newconfig)
+  if [ $# -ne 2 ]; 
+    then usage
+  fi
+  echo "Creating new configsubdir: <volume>/config/$CONFIG"
+  pristine-config
+  new-config "$CONFIG"
+  ;;
+run)
+  if [ $# -ne 2 ]; 
+    then usage
+  fi
+  echo "Running server using config from <volume>/config/$CONFIG"
+  ;;
+*)
+  usage
+  ;;
+esac
+
+exit
+
+
+
+
+#cd "/opt/chivalry/config"
+#[ ! -L PCServer-UDKGame.ini ] && ln -s ../server/UDKGame/Config/PCServer-UDKGame.ini PCServer-UDKGame.ini
 
 
 # link the gamefile created in .local to volume one. else the downloaded maps are not accessible
 [ ! -L "/home/steam/.local/share/TornBanner/Chivalry/UDKGame" ] && mkdir -p "/home/steam/.local/share/TornBanner/Chivalry" && ln -s /opt/chivalry/server/UDKGame /home/steam/.local/share/TornBanner/Chivalry/UDKGame
 
 # use the predefined ini in order to configure the server
-cp /usr/local/bin/PCServer-UDKGame.ini /opt/chivalry/server/UDKGame/Config/PCServer-UDKGame.ini
+#cp /usr/local/bin/PCServer-UDKGame.ini /opt/chivalry/server/UDKGame/Config/PCServer-UDKGame.ini
 
 #add libraries to env
 export LD_LIBRARY_PATH=/opt/chivalry/server/linux64:/opt/chivalry/server/Binaries/Linux/lib
 cd "/opt/chivalry/server/Binaries/Linux"
 #launch
+#./UDKGameServer-Linux AOCFFA-Moor_p\?steamsockets\?Port=8000\?QueryPort=27015\?adminpassword=erased\?password=erased\?modname=BlackKnight -sdkfileid=232823090 -configsubdir=testi -seekfreeloadingserver
 ./UDKGameServer-Linux AOCFFA-Moor_p\?steamsockets\?Port=8000\?QueryPort=27015\?adminpassword=erased\?password=erased\?modname=BlackKnight -sdkfileid=232823090 -seekfreeloadingserver
