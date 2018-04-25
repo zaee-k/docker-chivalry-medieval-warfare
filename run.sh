@@ -25,9 +25,6 @@ function install-chivalry {
     if [ ! -f "/opt/chivalry/server/Binaries/Linux/steam_appid.txt" ]; then
         echo "219640" > "/opt/chivalry/server/Binaries/Linux/steam_appid.txt"
     fi
-
-    # link the gamefile created in .local to volume one. else the downloaded maps are not accessible
-    [ ! -L "/home/steam/.local/share/TornBanner/Chivalry/UDKGame" ] && mkdir -p "/home/steam/.local/share/TornBanner/Chivalry" && ln -s /opt/chivalry/server/UDKGame /home/steam/.local/share/TornBanner/Chivalry/UDKGame
 }
 
 function pristine-config {
@@ -41,6 +38,7 @@ function pristine-config {
 function new-config {
     if [ ! -d "/opt/chivalry/config/$1" ]; then
         cp -r /opt/chivalry/config/pristine "/opt/chivalry/config/$1"
+        ln -s "/opt/chivalry/config/$1" "/opt/chivalry/server/UDKGame/Config/$1"
         # use the predefined ini in order to configure the server
         cp /usr/local/bin/PCServer-UDKGame.ini "/opt/chivalry/config/$1/PCServer-UDKGame.ini"
         echo "Customise server config before running: <volume>/config/$1/PCServer-UDKGame.ini"
@@ -76,6 +74,10 @@ run)
     then usage
   fi
   echo "Running server using config from <volume>/config/$CONFIG"
+  # link the gamefile created in .local to volume one. else the downloaded maps are not accessible
+  # this seems to be important also for black knight mod
+  # move this to Dockerfile?
+  [ ! -L "/home/steam/.local/share/TornBanner/Chivalry/UDKGame" ] && mkdir -p "/home/steam/.local/share/TornBanner/Chivalry" && ln -s /opt/chivalry/server/UDKGame /home/steam/.local/share/TornBanner/Chivalry/UDKGame
   #add libraries to env
   export LD_LIBRARY_PATH=/opt/chivalry/server/linux64:/opt/chivalry/server/Binaries/Linux/lib
   cd "/opt/chivalry/server/Binaries/Linux"
