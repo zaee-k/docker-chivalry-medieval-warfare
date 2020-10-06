@@ -10,7 +10,7 @@
 * docker run --rm -ti -v /opt/chivalry:/opt/chivalry -p 0.0.0.0:8000:8000/udp -p 0.0.0.0:27015:27015/udp --name chivalry chivalry_server newconfig game
   * create a new config subdirectry
 * Customize settings as you see fit in the config subdirectory
-* docker run -d -v /opt/chivalry:/opt/chivalry -p 0.0.0.0:8000:8000/udp -p 0.0.0.0:27015:27015/udp --name chivalry chivalry_server run game
+* docker run -d --restart=always -v /opt/chivalry:/opt/chivalry -p 0.0.0.0:8000:8000/udp -p 0.0.0.0:27015:27015/udp --name chivalry chivalry_server run game
   * run the game using the settings in the config subdirectory
 
 ## Features / tested with
