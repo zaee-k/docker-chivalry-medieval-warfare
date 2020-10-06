@@ -23,7 +23,6 @@
 
 ## known issues
 * scripts can be optimized
-* no restart if the server has a coredump
 
 
 ## Thanks
