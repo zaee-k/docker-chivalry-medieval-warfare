@@ -11,7 +11,7 @@ EXPOSE 27015:27015/udp
 RUN set -x && \
     dpkg --add-architecture i386 && \
     apt-get update -qq && \
-    apt-get install -qq curl libstdc++6:i386 lib32gcc1
+    apt-get install -qq curl libstdc++6:i386 lib32gcc-s1
 
 ################################################################################
 ## cleaning as root
