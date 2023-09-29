@@ -12,6 +12,9 @@
 * Customize settings as you see fit in the config subdirectory
 * docker run -d --restart=always -v /opt/chivalry:/opt/chivalry -p 0.0.0.0:8000:8000/udp -p 0.0.0.0:27015:27015/udp --name chivalry chivalry_server run game
   * run the game using the settings in the config subdirectory
+ 
+## Notes
+* Server name should be max 48 chars to fit Server Browser column size
 
 ## Features / tested with
 * defaults to Black Knight Mod
@@ -29,3 +32,4 @@
 
 * thpeng
 * fingerland-asso
+* jjtt
