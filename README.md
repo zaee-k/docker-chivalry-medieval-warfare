@@ -15,6 +15,7 @@
  
 ## Notes
 * Server name should be max 48 chars to fit Server Browser column size
+* [AOC.AOCRCon]\n RConPort=27960 needs to be present in PCServer-UDKGame.ini for RCON binding
 
 ## Features / tested with
 * defaults to Black Knight Mod
