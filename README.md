@@ -14,8 +14,10 @@
   * run the game using the settings in the config subdirectory
  
 ## Notes
+* Changing container redirected ports WON'T work until it matches config ports (most likely when game server is started it informs Steam about used ports, so if they are different from docker redirected ports it will not work correctly)
 * Server name should be max 48 chars to fit Server Browser column size
 * [AOC.AOCRCon]\n RConPort=27960 needs to be present in PCServer-UDKGame.ini for RCON binding
+* If container cannot find Binaries/Configs, make sure the volume IS readable/writeable (caution when directory is created by root) -> good solution is to create dedicated folder like /opt/chivalry and use it as base volume 
 
 ## Features / tested with
 * defaults to Black Knight Mod
