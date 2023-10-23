@@ -47,6 +47,39 @@ function new-config {
     fi
 }
 
+
+##################################### ENVS #####################################
+
+
+if [[ -z $CHIV_PORT ]] || [[ $CHIV_PORT -lt 1024 ]] || [[ $CHIV_PORT -gt 65534 ]] ; then
+  echo "CHIV_PORT is not set or within invalid port range, defaulting to 8000"
+  PORT="8000"
+else
+  PORT=$CHIV_PORT
+fi
+
+if [[ -z $CHIV_QPORT ]] || [[ $CHIV_QPORT -lt 1024 ]] || [[ $CHIV_QPORT -gt 65534 ]] ; then
+  echo "CHIV_QPORT is not set or within invalid port range, defaulting to 27015"
+  QPORT="27105"
+else
+  QPORT=$CHIV_QPORT
+fi
+
+if [[ -z $CHIV_STARTMAP ]]; then
+  echo "CHIV_STARTMAP not set, defaulting to AOCFFA-Dininghall_p"
+  STARTMAP="AOCFFA-Dininghall_p"
+else
+  STARTMAP=$CHIV_STARTMAP
+fi
+
+if [[ -z $CHIV_MODNAME ]]; then
+  echo "CHIV_MODNAME not set, game will start without initial mod"
+  INITIAL_MOD_NAME=""
+else
+  INITIAL_MOD_NAME="\?modname=$CHIV_MODNAME"
+fi
+
+
 ##################################### Main #####################################
 
 MODE="$1"
@@ -82,7 +115,7 @@ run)
   export LD_LIBRARY_PATH=/opt/chivalry/server/linux64:/opt/chivalry/server/Binaries/Linux/lib
   cd "/opt/chivalry/server/Binaries/Linux"
   #launch
-  ./UDKGameServer-Linux AOCLTS-Arena3_p\?steamsockets\?Port=8000\?QueryPort=27015\?adminpassword=erased\?password=erased\?modname=BlackKnight -sdkfileid=232823090 -configsubdir="$CONFIG" -seekfreeloadingserver < <(sleep 999999999)
+  ./UDKGameServer-Linux $STARTMAP\?steamsockets\?Port=$PORT\?QueryPort=$QPORT\?adminpassword=erased\?password=erased -sdkfileid=232823090 -configsubdir="$CONFIG" -seekfreeloadingserver < <(sleep 999999999)
   ;;
 *)
   usage
