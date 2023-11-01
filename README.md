@@ -28,6 +28,7 @@
 
 ## known issues
 * Changing container redirected ports WON'T work until it matches config ports (most likely when game server is started it informs Steam about used ports, so if they are different from docker redirected ports it will not work correctly)
+* Sometimes the config files get corrupted, maybe it's something with symlinks problem
 * scripts can be optimized
 
 ## TODO
